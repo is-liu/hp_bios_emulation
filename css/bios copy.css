@@ -1,0 +1,279 @@
+@charset "UTF-8";
+body,
+div,
+ul,
+li,
+img,
+p,
+input {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  font-size: 20px;
+  color: rgb(11, 11, 11);
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  gap: 1%;
+}
+
+.bios-view {
+  width: 70%;
+  max-width: 1000px;
+  min-width: 800px;
+  height: 100%;
+  overflow: hidden;
+  margin: 30px auto;
+}
+.bios-view .back-box {
+  width: 100%;
+  height: 29px;
+  border-bottom: 1px solid lightblue;
+  cursor: pointer;
+  color: #0066cc;
+  margin: 10px 0;
+}
+.bios-view > .header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  border-bottom: 2px solid lightgray;
+}
+.bios-view > .header > .nav {
+  display: flex;
+  width: fit-content;
+  height: 100%;
+  gap: 10px;
+  justify-content: space-around;
+}
+.bios-view > .header > .nav > li {
+  width: 200px;
+  height: 100%;
+  line-height: 60px;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+.bios-view > .header > .logo-box {
+  width: auto;
+  height: 100%;
+}
+.bios-view > .header > .logo-box > img {
+  width: auto;
+  height: 100%;
+}
+.bios-view > .main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  gap: 50px;
+}
+
+.lt,
+.gt {
+  width: 100px;
+  height: 100%;
+  background-color: aqua;
+}
+
+.content {
+  width: calc(100% - 300px);
+  height: 100%;
+  overflow: auto;
+}
+.content > li {
+  width: 100%;
+  height: fit-content;
+}
+
+.group-box,
+.group {
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 20px;
+}
+.group-box > li,
+.group > li {
+  min-height: 30px;
+  height: fit-content;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.group-box.list {
+  height: fit-content;
+  background-color: azure;
+  overflow-y: auto;
+}
+
+.tpl-check-box {
+  display: flex;
+  width: 100%;
+  height: 30px;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+.tpl-check-box > input {
+  display: block;
+  aspect-ratio: 1/1;
+  height: 80%;
+  cursor: pointer;
+}
+.tpl-check-box > p {
+  display: block;
+  height: 100%;
+  line-height: 30px;
+  text-align: left;
+  text-wrap: wrap;
+}
+
+.tpl-input-box {
+  display: flex;
+  width: 100%;
+  height: 30px;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+.tpl-input-box > p {
+  display: block;
+  height: 100%;
+  line-height: 30px;
+  text-align: left;
+  text-wrap: wrap;
+}
+.tpl-input-box > input {
+  height: 80%;
+  width: 100px;
+}
+
+.tpl-button-box {
+  width: 100%;
+  min-height: 30px;
+  line-height: 30px;
+  text-wrap: wrap;
+}
+
+.not-available {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.important-note {
+  color: chocolate;
+  background-color: rgb(0, 0, 0);
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.important-note::before {
+  content: "！！！！ 注意: ";
+}
+
+.important-note::after {
+  content: "！！！！";
+}
+
+.service-view {
+  width: 25%;
+  height: 100vh;
+  padding-left: 20px;
+  margin: 30px auto;
+  overflow-y: auto;
+  border-left: 3px solid black;
+}
+.service-view > div {
+  margin-bottom: 30px;
+  border-bottom: 1px solid black;
+}
+.service-view .description > .service-title,
+.service-view .prompt-list > .service-title {
+  font-size: 25px;
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+}
+.service-view .description > .service-title::before,
+.service-view .prompt-list > .service-title::before {
+  content: "";
+  width: 15px;
+  height: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
+  display: inline-block;
+  background-color: #99ccff;
+}
+.service-view .description > ul,
+.service-view .prompt-list > ul {
+  width: 70%;
+  margin: 0 auto;
+}
+.service-view .description > ul li,
+.service-view .prompt-list > ul li {
+  min-height: 30px;
+  height: fit-content;
+  line-height: 30px;
+}
+
+.system-prompt > ul > li > div {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  padding: 10px 0;
+}
+.system-prompt > ul > li > div > .title {
+  width: 150px;
+}
+.system-prompt > ul > li > div > .lang-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  height: fit-content;
+  width: 100%;
+}
+.system-prompt > ul > li > div > .lang-group > li {
+  width: fit-content;
+  min-width: 50px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  padding: 0 10px;
+  font-size: 20px;
+  color: #99ccff;
+  cursor: pointer;
+  background-color: aliceblue;
+}
+.system-prompt > ul > li > div > .lang-group > li.active {
+  background-color: #99ccff;
+  color: #FFF;
+}
+
+/*# sourceMappingURL=bios%20copy.css.map */
