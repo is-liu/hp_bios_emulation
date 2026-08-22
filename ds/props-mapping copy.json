@@ -1,0 +1,31 @@
+{
+    "unit-menu": {
+        "type": [""]
+    },
+
+    "template": {
+        "nav": {
+            "li":"<li class='clickable' data-sn='${btn-id}'>${TEXT-INNER}</li>"
+        },
+        "page": {
+            "li": "<li><div class='lt'></div><div class='content'><ul class='group-box'></ul></div></li>"
+        },
+        "group": {
+            "ul": "<li><ul class='group-box group'></ul></li>",
+            "li": "<li class='clickable' data-sn='${btn-id}'><div class='tpl-button-box'>${TEXT-INNER}</div></li>"
+        },
+        "list": {
+            "ul": "<li><ul class='group-box list'></ul></li>",
+            "li": "<li class='clickable' data-sn='${btn-id}'><div class='tpl-button-box'>${TEXT-INNER}</div></li>"
+        },
+        "checked": {
+            "ul": "<li><ul class='group-box'></ul></li>",
+            "li": "<li class='clickable' data-sn='${btn-id}'><div class='tpl-input-box'><input type='checkbox'><p>${TEXT_INNER}</p></div></li>"
+        },
+        "input": {
+            "ul": "<li><ul class='group-box'></ul></li>",
+            "li": "<li class='clickable' data-sn='${btn-id}'><div  class='tpl-input-box'><p>Test</p><input type='number'></div></li>"
+
+        }
+    }
+}

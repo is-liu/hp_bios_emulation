@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>树形菜单编辑器（支持分组显示）</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            height: 100vh;
+        }
+        #app {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 40px);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .tree-panel {
+            width: 380px;
+            min-width: 300px;
+            background: #fafbfc;
+            border-right: 1px solid #e8ecf0;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .tree-panel h3 {
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .tree-panel h3 button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .tree-panel h3 button:hover { background: #2980b9; }
+
+        #treeContainer {
+            list-style: none;
+            padding-left: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+        #treeContainer ul { list-style: none; padding-left: 20px; }
+
+        .tree-node {
+            padding: 6px 4px;
+            border-radius: 4px;
+            margin: 2px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .tree-node:hover { background: #eef2f7; }
+        .tree-node.selected {
+            background: #d5e8f7;
+            border-left-color: #3498db;
+        }
+        .tree-node .toggle-icon {
+            display: inline-block;
+            width: 18px;
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            cursor: pointer;
+            user-select: none;
+            margin-right: 4px;
+        }
+        .tree-node .node-label { flex: 1; font-size: 14px; padding: 2px 4px; }
+        .tree-node .node-label .group-tag {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-left: 8px;
+            background: #ecf0f1;
+            padding: 0 6px;
+            border-radius: 3px;
+        }
+        .tree-node .node-actions {
+            display: flex;
+            gap: 4px;
+            margin-left: 8px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .tree-node:hover .node-actions { opacity: 1; }
+        .tree-node .node-actions button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 4px;
+            color: #555;
+            border-radius: 3px;
+        }
+        .tree-node .node-actions button:hover { background: #d0d7de; }
+        .tree-node .node-actions .del-btn:hover { color: #e74c3c; }
+
+        .group-header {
+            padding: 4px 8px;
+            margin: 8px 0 4px 0;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #e8edf3;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: default;
+            user-select: none;
+        }
+        .group-header .group-toggle {
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        .form-panel {
+            flex: 1;
+            padding: 24px 30px;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .form-panel h3 {
+            font-weight: 500;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 12px;
+        }
+        .form-group label {
+            width: 110px;
+            font-weight: 500;
+            color: #34495e;
+            font-size: 14px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            flex: 1;
+            min-width: 180px;
+            padding: 6px 10px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border 0.2s;
+        }
+        .form-group input:disabled {
+            background: #f0f0f0;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+        }
+        .form-group .checkbox-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .form-group .checkbox-group label {
+            width: auto;
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .form-group .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+        .form-group .lang-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .form-group .lang-group>div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .form-group .lang-group>div span {
+            font-weight: normal;
+            white-space: nowrap;
+        }
+        .form-group .lang-group input {
+            flex: 1;
+            min-width: 100px;
+        }
+        .form-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+        .form-actions button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+            transition: background 0.2s;
+        }
+        .form-actions button:hover { background: #2980b9; }
+        .form-actions button.danger { background: #e74c3c; }
+        .form-actions button.danger:hover { background: #c0392b; }
+        .form-actions button.secondary { background: #95a5a6; }
+        .form-actions button.secondary:hover { background: #7f8c8d; }
+
+        .export-area {
+            margin-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .export-area button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .export-area button:hover { background: #1e8449; }
+        .export-area .file-name {
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        .empty-tip {
+            color: #95a5a6;
+            text-align: center;
+            padding: 40px 0;
+            font-size: 16px;
+        }
+        .func-list {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+        .func-list li {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .func-list li input[type="text"] {
+            flex: 1;
+            padding: 4px 8px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+        }
+        .func-list li button {
+            background: transparent;
+            border: none;
+            color: #e74c3c;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .func-list li button:hover { color: #c0392b; }
+        .add-func-btn {
+            margin-top: 6px;
+            background: #ecf0f1;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .add-func-btn:hover { background: #d5dbdb; }
+        .props-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+            width: 100%;
+        }
+        .props-group .prop-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .props-group .prop-item span {
+            font-weight: normal;
+        }
+        .props-group input[type="text"],
+        .props-group input[type="number"] {
+            width: 120px;
+            padding: 4px 8px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+        }
+        .props-group input[type="number"] {
+            width: 80px;
+        }
+        .props-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+        .props-group .prop-item.disabled input {
+            background: #f0f0f0;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="tree-panel">
+            <h3>
+                <span>📂 菜单树（按组显示）</span>
+                <button id="addRootBtn">+ 添加根节点</button>
+            </h3>
+            <ul id="treeContainer"></ul>
+        </div>
+        <div class="form-panel">
+            <h3 id="formTitle">请选择一个节点</h3>
+            <form id="nodeForm" style="display: none;"></form>
+            <div id="noSelection" class="empty-tip">👈 点击左侧树节点进行编辑</div>
+            <div id="formActions" style="display: none;" class="form-actions">
+                <button type="button" id="saveBtn">💾 保存节点</button>
+                <button type="button" id="addChildBtn">➕ 添加子节点</button>
+                <button type="button" id="deleteBtn" class="danger">🗑️ 删除此节点</button>
+            </div>
+            <div class="export-area">
+                <button id="downloadBtn">📥 下载 JSON 文件</button>
+                <span class="file-name">文件名：menu-config.json</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js">
+    </script>
+    <script>
+        // ---------- 初始数据（含 group 示例） ----------
+        let treeData = [{
+            "label": { "zh": "主要", "en": "Main" },
+            "group-label": "",
+            "description ": "描述",
+            "id": "Main",
+            "type": "page",
+            "props": { "value": "", "min": 0, "max": 15, "checked": true },
+            "available": true,
+            "hidden": false,
+            "default": true,
+            "goback": false,
+            "func": ["选项功能"],
+            "order": 1,
+            "clickable": true,
+            "group": -1,
+            "children": [{
+                "label": { "zh": "系统信息", "en": "system information" },
+                "group-label": "组标签",
+                "description ": "information描述",
+                "id": "system-information",
+                "type": "list",
+                "props": { "value": "", "min": 0, "max": 15, "checked": true },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 1,
+                "func": [1, 2, 3, 4, 5],
+                "children": [{
+                    "label": { "zh": "产品序列号", "en": "Serial number" },
+                    "group-label": "",
+                    "description ": "sn描述",
+                    "id": "Serial-Number",
+                    "type": "list",
+                    "props": { "value": "", "min": 0, "max": 15, "checked": true },
+                    "available": true,
+                    "hidden": false,
+                    "default": true,
+                    "goback": false,
+                    "func": ["选项功能"],
+                    "order": 1,
+                    "clickable": false,
+                    "group": 1,
+                    "children": []
+                }]
+            }, {
+                "label": { "zh": "系统", "en": "system" },
+                "group-label": "组标签",
+                "description ": "system描述",
+                "id": "system",
+                "type": "list",
+                "props": { "value": "", "min": 0, "max": 15, "checked": true },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 1,
+                "children": []
+            }, {
+                "label": { "zh": "测试1", "en": "Test1" },
+                "group-label": "组标签",
+                "description ": "描述",
+                "id": "test1",
+                "type": "list",
+                "props": { "value": "", "min": 0, "max": 15, "checked": true },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 11,
+                "children": [{
+                    "label": { "zh": "产品序列号", "en": "Serial number" },
+                    "group-label": "",
+                    "description ": "描述",
+                    "id": "Serial-Number",
+                    "type": "list",
+                    "props": { "value": "", "min": 0, "max": 15, "checked": true },
+                    "available": true,
+                    "hidden": false,
+                    "default": true,
+                    "goback": false,
+                    "func": ["选项功能"],
+                    "order": 1,
+                    "clickable": false,
+                    "group": 11,
+                    "children": []
+                }]
+            }]
+        }, {
+            "label": { "zh": "安全", "en": "Security" },
+            "group-label": "",
+            "description ": "描述",
+            "id": "Security",
+            "type": "page",
+            "props": { "value": "", "min": 0, "max": 15, "checked": true },
+            "available": true,
+            "hidden": false,
+            "default": false,
+            "goback": false,
+            "func": ["选项功能"],
+            "order": 1,
+            "group": -1,
+            "children": []
+        }, {
+            "label": { "zh": "先进", "en": "Advanced" },
+            "group-label": "",
+            "description ": "描述",
+            "id": "Advanced",
+            "type": "page",
+            "props": { "value": "", "min": 0, "max": 15, "checked": true },
+            "available": true,
+            "hidden": false,
+            "default": false,
+            "goback": false,
+            "func": ["选项功能"],
+            "order": 1,
+            "group": -1,
+            "children": []
+        }, {
+            "label": { "zh": "UEFI", "en": "UEFI" },
+            "group-label": "",
+            "description ": "描述",
+            "id": "UEFI",
+            "type": "page",
+            "props": { "value": "", "min": 0, "max": 15, "checked": true },
+            "available": true,
+            "hidden": false,
+            "default": false,
+            "goback": false,
+            "func": ["选项功能"],
+            "order": 1,
+            "group": -1,
+            "children": []
+        }];
+
+        // ---------- 全局状态 ----------
+        let selectedNode = null;
+        let selectedLi = null;
+
+        // ---------- 工具函数 ----------
+        function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+        // ---------- 渲染树（支持分组） ----------
+        function renderTree() {
+            const $container = $('#treeContainer');
+            $container.empty();
+            if (!treeData || treeData.length === 0) {
+                $container.append('<li class="empty-tip">暂无数据，请添加根节点</li>');
+                return;
+            }
+
+            function buildTree(nodes, parentUl, depth) {
+                // 先按 group 分组（忽略 group = -1 或 null 或 undefined）
+                const groups = {};
+                const noGroup = [];
+                nodes.forEach(node => {
+                    const g = node.group;
+                    if (g !== undefined && g !== null && g !== -1 && g !== '') {
+                        if (!groups[g]) groups[g] = [];
+                        groups[g].push(node);
+                    } else {
+                        noGroup.push(node);
+                    }
+                });
+
+                // 渲染有分组的部分（按 group 值排序）
+                const sortedGroupKeys = Object.keys(groups).sort((a, b) => parseFloat(a) - parseFloat(b));
+                sortedGroupKeys.forEach(gKey => {
+                    const groupNodes = groups[gKey];
+                    // 组标题（可折叠）
+                    const groupLi = document.createElement('li');
+                    groupLi.className = 'group-header';
+                    const toggleSpan = document.createElement('span');
+                    toggleSpan.className = 'group-toggle';
+                    toggleSpan.textContent = '▼';
+                    toggleSpan.style.cursor = 'pointer';
+                    const titleSpan = document.createElement('span');
+                    titleSpan.textContent = `组 ${gKey}（${groupNodes.length} 项）`;
+                    groupLi.appendChild(toggleSpan);
+                    groupLi.appendChild(titleSpan);
+
+                    // 组内 ul（用于折叠）
+                    const groupUl = document.createElement('ul');
+                    groupUl.style.display = 'block';
+                    groupLi.appendChild(groupUl);
+
+                    // 点击组标题切换折叠
+                    $(toggleSpan).on('click', function(e) {
+                        e.stopPropagation();
+                        if (groupUl.style.display === 'none') {
+                            groupUl.style.display = 'block';
+                            toggleSpan.textContent = '▼';
+                        } else {
+                            groupUl.style.display = 'none';
+                            toggleSpan.textContent = '▶';
+                        }
+                    });
+
+                    parentUl.appendChild(groupLi);
+
+                    // 递归渲染组内节点
+                    groupNodes.forEach(node => {
+                        renderNode(node, groupUl, depth + 1);
+                    });
+                });
+
+                // 渲染未分组节点
+                noGroup.forEach(node => {
+                    renderNode(node, parentUl, depth);
+                });
+            }
+
+            function renderNode(node, parentUl, depth) {
+                const li = document.createElement('li');
+                li.className = 'tree-node';
+                li.dataset.id = node.id;
+                $(li).data('node', node);
+
+                const contentSpan = document.createElement('span');
+                contentSpan.style.display = 'flex';
+                contentSpan.style.alignItems = 'center';
+                contentSpan.style.width = '100%';
+
+                const hasChildren = node.children && node.children.length > 0;
+                const toggleIcon = document.createElement('span');
+                toggleIcon.className = 'toggle-icon';
+                toggleIcon.textContent = hasChildren ? '▼' : '•';
+                toggleIcon.style.color = hasChildren ? '#2c3e50' : '#bdc3c7';
+                if (hasChildren) {
+                    toggleIcon.style.cursor = 'pointer';
+                    $(toggleIcon).on('click', function(e) {
+                        e.stopPropagation();
+                        const childUl = $(li).find('> ul');
+                        if (childUl.length) {
+                            if (childUl.is(':visible')) {
+                                childUl.hide();
+                                $(this).text('▶');
+                            } else {
+                                childUl.show();
+                                $(this).text('▼');
+                            }
+                        }
+                    });
+                }
+
+                // 节点标签（显示 group 标签）
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'node-label';
+                const labelText = node.label && node.label.zh ? node.label.zh : node.id;
+                let groupTag = '';
+                if (node.group !== undefined && node.group !== null && node.group !== -1) {
+                    groupTag = `<span class="group-tag">组 ${node.group}</span>`;
+                }
+                labelSpan.innerHTML = labelText + (node.type ? ` (${node.type})` : '') + groupTag;
+
+                // 操作按钮
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'node-actions';
+                const addBtn = document.createElement('button');
+                addBtn.textContent = '➕';
+                addBtn.title = '添加子节点';
+                $(addBtn).on('click', function(e) {
+                    e.stopPropagation();
+                    addChildNode(node);
+                });
+                const delBtn = document.createElement('button');
+                delBtn.textContent = '✖';
+                delBtn.className = 'del-btn';
+                delBtn.title = '删除此节点';
+                $(delBtn).on('click', function(e) {
+                    e.stopPropagation();
+                    deleteNode(node, li);
+                });
+                actionsDiv.appendChild(addBtn);
+                actionsDiv.appendChild(delBtn);
+
+                contentSpan.appendChild(toggleIcon);
+                contentSpan.appendChild(labelSpan);
+                contentSpan.appendChild(actionsDiv);
+                li.appendChild(contentSpan);
+
+                $(li).on('click', function(e) {
+                    if ($(e.target).closest('button, .toggle-icon').length) return;
+                    selectNode(node, li);
+                });
+
+                if (hasChildren) {
+                    const childUl = document.createElement('ul');
+                    childUl.style.display = 'block';
+                    li.appendChild(childUl);
+                    // 递归构建子节点（子节点内部再分组）
+                    buildTree(node.children, childUl, depth + 1);
+                }
+
+                parentUl.appendChild(li);
+            }
+
+            // 开始渲染（根节点直接渲染，不分组）
+            const rootUl = $container[0];
+            treeData.forEach(node => {
+                renderNode(node, rootUl, 0);
+            });
+
+            // 恢复选中
+            if (selectedNode) {
+                const foundLi = $container.find('li.tree-node').filter(function() {
+                    return $(this).data('node') === selectedNode;
+                }).first();
+                if (foundLi.length) {
+                    selectNode(selectedNode, foundLi[0]);
+                } else {
+                    clearSelection();
+                }
+            }
+        }
+
+        // ---------- 选中 / 清除 ----------
+        function selectNode(node, liElement) {
+            $('.tree-node').removeClass('selected');
+            if (liElement) {
+                $(liElement).addClass('selected');
+                selectedLi = liElement;
+            } else {
+                const found = $('#treeContainer').find('li.tree-node').filter(function() {
+                    return $(this).data('node') === node;
+                }).first();
+                if (found.length) {
+                    found.addClass('selected');
+                    selectedLi = found[0];
+                } else {
+                    selectedLi = null;
+                }
+            }
+            selectedNode = node;
+            fillForm(node);
+            $('#noSelection').hide();
+            $('#nodeForm').show();
+            $('#formActions').show();
+            $('#formTitle').text('编辑节点：' + (node.label?.zh || node.id));
+        }
+
+        function clearSelection() {
+            $('.tree-node').removeClass('selected');
+            selectedNode = null;
+            selectedLi = null;
+            $('#noSelection').show();
+            $('#nodeForm').hide();
+            $('#formActions').hide();
+            $('#formTitle').text('请选择一个节点');
+        }
+
+        // ---------- 填充表单 ----------
+        function fillForm(node) {
+            const form = $('#nodeForm');
+            form.empty();
+
+            // ---- 基础字段（包含 group） ----
+            const baseFields = [
+                { key: 'type', label: '类型', type: 'select', options: ['page', 'list', 'group'] },
+                { key: 'available', label: '可用', type: 'checkbox' },
+                { key: 'hidden', label: '隐藏', type: 'checkbox' },
+                { key: 'clickable', label: '可点击', type: 'checkbox' },
+                { key: 'group', label: '分组 (group)', type: 'number' },
+                { key: 'order', label: '排序 (order)', type: 'number' },
+                { key: 'goback', label: '返回上级 (goback)', type: 'checkbox' },
+                { key: 'default', label: '默认首页 (default)', type: 'checkbox' },
+                { key: 'description ', label: '描述 (description )', type: 'text' },
+            ];
+            baseFields.forEach(f => {
+                const wrapper = $('<div class="form-group"></div>');
+                const label = $('<label></label>').text(f.label);
+                let input;
+                let value = node[f.key] !== undefined ? node[f.key] : '';
+                if (f.type === 'checkbox') {
+                    input = $('<input type="checkbox">');
+                    if (value === true) input.prop('checked', true);
+                    const cbLabel = $('<label style="font-weight:normal;"></label>').append(input);
+                    wrapper.append(label, cbLabel);
+                } else if (f.type === 'select') {
+                    input = $('<select></select>');
+                    f.options.forEach(opt => input.append($('<option></option>').val(opt).text(opt)));
+                    if (value) input.val(value);
+                    wrapper.append(label, input);
+                } else if (f.type === 'number') {
+                    input = $('<input type="number">');
+                    input.val(value !== undefined && value !== null ? value : 0);
+                    wrapper.append(label, input);
+                } else {
+                    input = $('<input type="text">');
+                    input.val(value !== undefined && value !== null ? value : '');
+                    wrapper.append(label, input);
+                }
+                if (input) {
+                    input.data('field', f.key);
+                    input.data('type', f.type);
+                }
+                form.append(wrapper);
+            });
+
+            // ---- ID（只读，自动生成） ----
+            const idWrapper = $('<div class="form-group"></div>');
+            const idLabel = $('<label>ID (自动生成)</label>');
+            const idInput = $('<input type="text" disabled>').val(node.id || '');
+            idInput.data('field', 'id');
+            idInput.data('type', 'text');
+            idWrapper.append(idLabel, idInput);
+            form.append(idWrapper);
+
+            // ---- 多语言标签（标注中英文） ----
+            const langWrapper = $('<div class="form-group"><label>多语言标签</label><div class="lang-group"></div></div>');
+            const zhGroup = $('<div><span>中文：</span></div>');
+            const zhInput = $('<input placeholder="中文标签">').val(node.label?.zh || '');
+            zhGroup.append(zhInput);
+            const enGroup = $('<div><span>英文：</span></div>');
+            const enInput = $('<input placeholder="英文标签 (用于生成ID)">').val(node.label?.en || '');
+            enGroup.append(enInput);
+            langWrapper.find('.lang-group').append(zhGroup, enGroup);
+            form.append(langWrapper);
+
+            // ---- 自动生成ID：监听英文输入 ----
+            enInput.on('input', function() {
+                const enVal = $(this).val().trim();
+                let newId = enVal.replace(/\s+/g, '-');
+                if (newId === '') {
+                    // 如果英文为空，保留原id或置空
+                    idInput.val(node.id || '');
+                } else {
+                    idInput.val(newId);
+                }
+            });
+            if (node.label?.en) {
+                enInput.trigger('input');
+            }
+
+            // ---- Props（细化） ----
+            const props = node.props || { value: '', min: 0, max: 15, checked: false };
+            const propsWrapper = $(
+                '<div class="form-group" style="flex-wrap: wrap; border-top:1px solid #eee; padding-top:12px; margin-top:12px;"><label style="width:100%;font-weight:bold;">Props 参数</label><div class="props-group"></div></div>'
+                );
+            const propsGroup = propsWrapper.find('.props-group');
+
+            const valueItem = $('<div class="prop-item"><span>值：</span></div>');
+            const valueInput = $('<input type="text" placeholder="数值">').val(props.value || '');
+            valueInput.data('field', 'props.value');
+            valueInput.data('type', 'text');
+            valueItem.append(valueInput);
+
+            const checkedItem = $('<div class="prop-item"><span>选中：</span></div>');
+            const checkedInput = $('<input type="checkbox">').prop('checked', props.checked === true);
+            checkedInput.data('field', 'props.checked');
+            checkedInput.data('type', 'checkbox');
+            checkedItem.append(checkedInput);
+
+            // 互斥
+            valueInput.on('input', function() {
+                if ($(this).val().trim() !== '') {
+                    checkedInput.prop('checked', false);
+                }
+            });
+            checkedInput.on('change', function() {
+                if ($(this).prop('checked')) {
+                    valueInput.val('').prop('disabled', true);
+                    valueItem.addClass('disabled');
+                } else {
+                    valueInput.prop('disabled', false);
+                    valueItem.removeClass('disabled');
+                }
+            });
+            if (props.checked === true) {
+                valueInput.prop('disabled', true);
+                valueItem.addClass('disabled');
+            }
+
+            const minItem = $('<div class="prop-item"><span>最小值：</span></div>');
+            const minInput = $('<input type="number">').val(props.min !== undefined ? props.min : 0);
+            minInput.data('field', 'props.min');
+            minInput.data('type', 'number');
+            minItem.append(minInput);
+            const maxItem = $('<div class="prop-item"><span>最大值：</span></div>');
+            const maxInput = $('<input type="number">').val(props.max !== undefined ? props.max : 15);
+            maxInput.data('field', 'props.max');
+            maxInput.data('type', 'number');
+            maxItem.append(maxInput);
+
+            propsGroup.append(valueItem, checkedItem, minItem, maxItem);
+            form.append(propsWrapper);
+
+            // ---- Func（动态列表） ----
+            const funcWrapper = $(
+                '<div class="form-group" style="flex-wrap: wrap; border-top:1px solid #eee; padding-top:12px; margin-top:12px;"><label style="width:100%;font-weight:bold;">功能列表 (func)</label><ul class="func-list"></ul></div>'
+                );
+            const funcList = funcWrapper.find('.func-list');
+            const funcArray = node.func || [];
+            funcArray.forEach((item, index) => {
+                const li = createFuncItem(item, index);
+                funcList.append(li);
+            });
+            const addBtn = $('<button type="button" class="add-func-btn">➕ 添加功能项</button>');
+            addBtn.on('click', function() {
+                const newIndex = funcList.children().length;
+                const li = createFuncItem('', newIndex);
+                funcList.append(li);
+                reindexFuncInputs();
+            });
+            funcWrapper.append(addBtn);
+            form.append(funcWrapper);
+
+            // 保存当前节点引用
+            form.data('currentNode', node);
+        }
+
+        // ---------- 辅助：创建 func 项 ----------
+        function createFuncItem(value, index) {
+            const li = $('<li></li>');
+            const input = $('<input type="text" placeholder="功能项">').val(value);
+            input.data('field', 'func[' + index + ']');
+            const delBtn = $('<button type="button">✖</button>');
+            delBtn.on('click', function() {
+                li.remove();
+                reindexFuncInputs();
+            });
+            li.append(input, delBtn);
+            return li;
+        }
+
+        function reindexFuncInputs() {
+            const items = $('#nodeForm').find('.func-list').children('li');
+            items.each(function(idx) {
+                const input = $(this).find('input[type="text"]');
+                input.data('field', 'func[' + idx + ']');
+            });
+        }
+
+        // ---------- 保存节点 ----------
+        function saveNodeFromForm() {
+            const form = $('#nodeForm');
+            const node = form.data('currentNode');
+            if (!node) {
+                alert('未选中任何节点！');
+                return false;
+            }
+
+            const newData = {};
+            form.find('input, select, textarea').each(function() {
+                const field = $(this).data('field');
+                if (!field) return;
+                if (field.startsWith('props.') || field.startsWith('func[')) return;
+                if (field === 'id') return;
+                const type = $(this).data('type') || $(this).attr('type');
+                let val;
+                if (type === 'checkbox') {
+                    val = $(this).prop('checked');
+                } else if (type === 'number') {
+                    val = parseFloat($(this).val());
+                    if (isNaN(val)) val = 0;
+                } else {
+                    val = $(this).val();
+                }
+                newData[field] = val;
+            });
+
+            // props
+            const props = {};
+            const valueInput = form.find('input[data-field="props.value"]');
+            props.value = valueInput.val() || '';
+            const minInput = form.find('input[data-field="props.min"]');
+            props.min = parseFloat(minInput.val()) || 0;
+            const maxInput = form.find('input[data-field="props.max"]');
+            props.max = parseFloat(maxInput.val()) || 15;
+            const checkedInput = form.find('input[data-field="props.checked"]');
+            props.checked = checkedInput.prop('checked') || false;
+            newData.props = props;
+
+            // func
+            const funcInputs = form.find('input[data-field^="func["]');
+            const funcArray = [];
+            funcInputs.each(function() {
+                const val = $(this).val().trim();
+                if (val !== '') funcArray.push(val);
+            });
+            newData.func = funcArray;
+
+            // label
+            const zh = form.find('input[placeholder="中文标签"]').val();
+            const en = form.find('input[placeholder="英文标签 (用于生成ID)"]').val();
+            newData.label = { zh, en };
+
+            // group-label
+            const groupLabelInput = form.find('input[data-field="group-label"]');
+            if (groupLabelInput.length) {
+                newData['group-label'] = groupLabelInput.val();
+            }
+
+            // id
+            const idInput = form.find('input[data-field="id"]');
+            newData.id = idInput.val();
+
+            // 合并
+            Object.keys(newData).forEach(key => {
+                if (key !== 'children') {
+                    node[key] = newData[key];
+                }
+            });
+            if (!node.children) node.children = [];
+
+            renderTree();
+            const foundLi = $('#treeContainer').find('li.tree-node').filter(function() {
+                return $(this).data('node') === node;
+            }).first();
+            if (foundLi.length) {
+                selectNode(node, foundLi[0]);
+            } else {
+                clearSelection();
+            }
+            return true;
+        }
+
+        // ---------- 添加/删除节点 ----------
+        function addChildNode(parentNode) {
+            const newNode = {
+                label: { zh: '新节点', en: 'New Node' },
+                'group-label': '',
+                'description ': '新描述',
+                id: 'New-Node',
+                type: 'list',
+                props: { value: '', min: 0, max: 15, checked: false },
+                available: true,
+                hidden: false,
+                default: false,
+                goback: false,
+                func: [],
+                order: 0,
+                clickable: true,
+                group: 0,
+                children: []
+            };
+            if (!parentNode.children) parentNode.children = [];
+            parentNode.children.push(newNode);
+            renderTree();
+            const foundLi = $('#treeContainer').find('li.tree-node').filter(function() {
+                return $(this).data('node') === newNode;
+            }).first();
+            if (foundLi.length) {
+                selectNode(newNode, foundLi[0]);
+                const enInput = $('#nodeForm').find('input[placeholder="英文标签 (用于生成ID)"]');
+                if (enInput.length) enInput.trigger('input');
+            }
+        }
+
+        function deleteNode(node, liElement) {
+            if (!confirm('确认删除节点 "' + (node.label?.zh || node.id) + '" 及其所有子节点？')) return;
+            const removed = removeNodeFromTree(node, treeData);
+            if (!removed) {
+                alert('删除失败，未找到该节点');
+                return;
+            }
+            renderTree();
+            clearSelection();
+        }
+
+        function removeNodeFromTree(targetNode, tree) {
+            for (let i = 0; i < tree.length; i++) {
+                if (tree[i] === targetNode) {
+                    tree.splice(i, 1);
+                    return true;
+                }
+                if (tree[i].children && tree[i].children.length) {
+                    const found = removeNodeFromTree(targetNode, tree[i].children);
+                    if (found) return true;
+                }
+            }
+            return false;
+        }
+
+        function addRootNode() {
+            const newNode = {
+                label: { zh: '新根节点', en: 'New Root' },
+                'group-label': '',
+                'description ': '根节点描述',
+                id: 'New-Root',
+                type: 'page',
+                props: { value: '', min: 0, max: 15, checked: false },
+                available: true,
+                hidden: false,
+                default: false,
+                goback: false,
+                func: [],
+                order: 0,
+                clickable: true,
+                group: -1,
+                children: []
+            };
+            treeData.push(newNode);
+            renderTree();
+            const foundLi = $('#treeContainer').find('li.tree-node').filter(function() {
+                return $(this).data('node') === newNode;
+            }).first();
+            if (foundLi.length) {
+                selectNode(newNode, foundLi[0]);
+                const enInput = $('#nodeForm').find('input[placeholder="英文标签 (用于生成ID)"]');
+                if (enInput.length) enInput.trigger('input');
+            }
+        }
+
+        // ---------- 下载 JSON 文件 ----------
+        function downloadJSON() {
+            const jsonStr = JSON.stringify(treeData, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'menu-config.json'; // 固定文件名
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ---------- 事件绑定 ----------
+        $(function() {
+            renderTree();
+            if (treeData.length > 0) {
+                const firstLi = $('#treeContainer').find('li.tree-node').first();
+                if (firstLi.length) {
+                    const node = firstLi.data('node');
+                    if (node) selectNode(node, firstLi[0]);
+                }
+            }
+
+            $('#addRootBtn').on('click', addRootNode);
+            $('#saveBtn').on('click', function() { saveNodeFromForm(); });
+            $('#addChildBtn').on('click', function() {
+                const node = $('#nodeForm').data('currentNode');
+                if (!node) { alert('请先选择一个节点！'); return; }
+                addChildNode(node);
+            });
+            $('#deleteBtn').on('click', function() {
+                const node = $('#nodeForm').data('currentNode');
+                if (!node) { alert('请先选择一个节点！'); return; }
+                const li = $('#treeContainer').find('li.tree-node').filter(function() {
+                    return $(this).data('node') === node;
+                }).first();
+                if (li.length) deleteNode(node, li[0]);
+                else deleteNode(node, null);
+            });
+            $('#downloadBtn').on('click', downloadJSON);
+
+            $(document).on('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+                    if ($('#nodeForm').is(':visible')) {
+                        saveNodeFromForm();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

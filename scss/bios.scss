@@ -1,0 +1,418 @@
+ /* ========== 全局重置 ========== */
+ body, div, ul, li, img, p, input {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    font-size: 20px;
+    color: rgb(11, 11, 11);
+}
+
+ul {
+    list-style: none;
+}
+
+/* ========== 容器 ========== */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    gap: 1%;
+}
+
+/* ========== BIOS 主视图 ========== */
+.bios-view {
+    width: 70%;
+    max-width: 1000px;
+    min-width: 800px;
+    height: 100%;
+    overflow: hidden;
+    margin: 30px auto;
+}
+
+.bios-view .back-box {
+    width: 100%;
+    height: 29px;
+    border-bottom: 1px solid lightblue;
+    cursor: pointer;
+    color: #0066cc;
+    margin: 10px 0;
+}
+
+.bios-view > .header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    border-bottom: 2px solid lightgray;
+}
+
+.bios-view > .header > .nav {
+    display: flex;
+    width: fit-content;
+    height: 100%;
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.bios-view > .header > .nav > li {
+    width: 200px;
+    height: 100%;
+    line-height: 60px;
+    font-size: 40px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.bios-view > .header > .logo-box {
+    width: auto;
+    height: 100%;
+}
+
+.bios-view > .header > .logo-box > img {
+    width: auto;
+    height: 100%;
+}
+
+.bios-view > .main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+}
+
+/* ========== 左右占位 ========== */
+.lt, .gt {
+    width: 100px;
+    height: 100%;
+    background-color: aqua;
+}
+
+/* ========== 内容区 ========== */
+.content {
+    width: calc(100% - 300px);
+    height: 100%;
+    overflow: auto;
+}
+
+.content > li {
+    width: 100%;
+    height: fit-content;
+}
+
+/* ========== 组盒子 ========== */
+.group-box, .group {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 20px;
+}
+
+.group-box > li, .group > li {
+    min-height: 30px;
+    height: fit-content;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.group-box.list {
+    height: fit-content;
+    background-color: azure;
+    overflow-y: auto;
+}
+
+/* ========== 模板组件 ========== */
+.tpl-check-box {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.tpl-check-box > input {
+    display: block;
+    aspect-ratio: 1/1;
+    height: 80%;
+    cursor: pointer;
+}
+
+.tpl-check-box > p {
+    display: block;
+    height: 100%;
+    line-height: 30px;
+    text-align: left;
+    text-wrap: wrap;
+}
+
+.tpl-input-box {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.tpl-input-box > p {
+    display: block;
+    height: 100%;
+    line-height: 30px;
+    text-align: left;
+    text-wrap: wrap;
+}
+
+.tpl-input-box > input {
+    height: 80%;
+    width: 100px;
+}
+
+.tpl-button-box {
+    width: 100%;
+    min-height: 30px;
+    line-height: 30px;
+    text-wrap: wrap;
+}
+
+/* ========== 工具类 ========== */
+.not-available {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.clickable {
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+
+/* ========== service-view 基础样式（无装饰，纯色） ========== */
+.service-view {
+    width: 25%;
+    height: 100vh;
+    padding-left: 20px;
+    margin: 30px auto;
+    overflow-y: auto;
+    border-left: 3px solid black;
+    background-color: #f9f9f9;   /* 浅灰纯色背景 */
+}
+
+.service-view > div {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.service-view > div:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* 标题样式 */
+.service-view .description > .service-title,
+.service-view .prompt-list > .service-title,
+.system-prompt > .tittle {
+    font-size: 25px;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #222;
+}
+
+/* 标题左侧装饰条（保留原风格） */
+.service-view .description > .service-title::before,
+.service-view .prompt-list > .service-title::before {
+    content: "";
+    width: 15px;
+    height: 40px;
+    margin-right: 10px;
+    display: inline-block;
+    background-color: #99ccff;
+}
+
+.system-prompt > .tittle::before {
+    content: "";
+    width: 15px;
+    height: 40px;
+    margin-right: 10px;
+    display: inline-block;
+    background-color: #99ccff;
+}
+
+/* 列表项通用 */
+.service-view .description > ul,
+.service-view .prompt-list > ul {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.service-view .description > ul li,
+.service-view .prompt-list > ul li {
+    min-height: 30px;
+    height: fit-content;
+    line-height: 30px;
+}
+
+/* system-prompt 内列表 */
+.system-prompt > ul > li {
+    min-height: 30px;
+    line-height: 1.6;
+    padding: 4px 0;
+    color: #111;
+    font-size: 18px;
+}
+
+.system-prompt > ul > li > div {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    padding: 10px 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.system-prompt > ul > li > div > .title {
+    width: 150px;
+    font-weight: 600;
+}
+
+/* 语言选择按钮（纯色，无渐变） */
+.lang-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    height: fit-content;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.lang-group > li {
+    width: fit-content;
+    min-width: 50px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    padding: 0 10px;
+    font-size: 20px;
+    color: #0066cc;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: 1px solid #aaa;
+}
+
+.lang-group > li.active {
+    background-color: #99ccff;
+    color: #fff;
+    border-color: #66aadd;
+}
+
+/* ---------- 警告提示（纯色突出） ---------- */
+.important-note {
+    background-color: #d9534f !important;   /* 醒目红色 */
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 22px !important;
+    padding: 12px 18px !important;
+    border-radius: 4px !important;
+    border-left: 6px solid #a94442 !important;
+    margin: 10px 0 !important;
+}
+
+/* 清除原有伪元素内容（若有） */
+.important-note::before,
+.important-note::after {
+    content: none !important;
+}
+
+/* description 内容样式 */
+#description.description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #222;
+    padding: 8px 0;
+    border-left: 3px solid #99ccff;
+    padding-left: 15px;
+    margin: 5px 0;
+}
+
+/* prompt-list 选项列表（无阴影动画） */
+.prompt-list > ul {
+    width: 100%;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.prompt-list > ul > li {
+    min-height: 30px;
+    line-height: 1.6;
+    padding: 6px 0 6px 16px;
+    border-bottom: 1px solid #eee;
+    color: #111;
+    font-size: 17px;
+    position: relative;
+}
+
+.prompt-list > ul > li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: #666;
+}
+
+.prompt-list > ul > li:last-child {
+    border-bottom: none;
+}
+
+/* 响应式（保留基本适配） */
+@media (max-width: 1200px) {
+    .service-view {
+        width: 30%;
+        padding-left: 15px;
+    }
+}
+@media (max-width: 992px) {
+    .service-view {
+        width: 35%;
+        padding-left: 12px;
+    }
+    .service-view .description > .service-title,
+    .service-view .prompt-list > .service-title,
+    .system-prompt > .tittle {
+        font-size: 22px;
+        height: 36px;
+        line-height: 36px;
+    }
+    .lang-group > li {
+        font-size: 17px;
+        height: 34px;
+        line-height: 34px;
+    }
+}
+@media (max-width: 768px) {
+    .service-view {
+        width: 100%;
+        height: auto;
+        max-height: 50vh;
+        border-left: none;
+        border-top: 3px solid black;
+        margin: 10px auto;
+        padding: 15px 18px;
+    }
+    .service-view > div {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+}

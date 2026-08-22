@@ -1,0 +1,115 @@
+[
+    {
+        "label": {
+            "zh": "主要",
+            "en": "Main"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Main",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": true,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": [
+            {
+                "label": {
+                    "zh": "标签",
+                    "en": "label"
+                },
+                "group-label": "组标签",
+                "description ": "描述",
+                "id": "组件ID",
+                "type": "list",
+                "props": {
+                    "value": "",
+                    "min": 0,
+                    "max": 15,
+                    "checked": true
+                },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "children": []
+            }
+        ]
+    },
+    {
+        "label": {
+            "zh": "安全",
+            "en": "Security"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Security",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    },
+    {
+        "label": {
+            "zh": "先进",
+            "en": "Advanced"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Advanced",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    },
+    {
+        "label": {
+            "zh": "UEFI",
+            "en": "UEFI"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "UEFI",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    }
+]

@@ -1,0 +1,343 @@
+body,
+div,
+ul,
+li,
+img,
+p,
+input {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    font-size: 20px;
+    color: rgb(11, 11, 11);
+}
+
+ul {
+    list-style: none;
+}
+
+$header-height: 60px;
+$item-height: 30px;
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    gap: 1%;
+}
+
+.bios-view {
+    width: 70%;
+    max-width: 1000px;
+    min-width: 800px;
+    height: 100%;
+    overflow: hidden;
+    margin: 30px auto;
+
+    .back-box {
+        width: 100%;
+        height: 29px;
+        border-bottom: 1px solid lightblue;
+        cursor: pointer;
+        color: #0066cc;
+        margin: 10px 0;
+    }
+
+    >.header {
+        width: 100%;
+        height: $header-height;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 100px;
+        border-bottom: 2px solid lightgray;
+
+        >.nav {
+            display: flex;
+            width: fit-content;
+            height: 100%;
+            gap: 10px;
+            justify-content: space-around;
+
+            >li {
+                width: 200px;
+                height: 100%;
+                line-height: $header-height;
+                // color: aquamarine;
+                font-size: 40px;
+                text-align: center;
+                font-weight: 500;
+                cursor: pointer;
+            }
+        }
+
+        >.logo-box {
+            width: auto;
+            height: 100%;
+
+            >img {
+                width: auto;
+                height: 100%;
+            }
+        }
+    }
+
+    >.main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        gap: 50px;
+
+        // >.infor-box {
+        //     width: 100%;
+        //     height: 100%;
+
+        // display: flex;
+        // justify-content: space-around;
+        // gap: 50px;
+        // cursor: pointer;
+        // }
+
+        // >.tab-box {
+        //     width: 100%;
+        //     height: 100%;
+        //     position: relative;
+        //     left: 0;
+        //     top: 0;
+
+        //     >li {
+        //         background-color: aliceblue;
+        //         width: 100%;
+        //         height: 100%;
+        //         position: absolute;
+        //         left: 0;
+        //         top: 0;
+        //         z-index: -1;
+        //         display: flex;
+        //         justify-content: space-around;
+        //         gap: 50px;
+        //         cursor: pointer;
+        //     }
+
+        //     >li.item-active {
+        //         z-index: 999;
+        //     }
+        // }
+    }
+}
+
+.lt,
+.gt {
+    width: 100px;
+    height: 100%;
+    background-color: aqua;
+}
+
+.content {
+    width: calc(100% - 300px);
+    height: 100%;
+    overflow: auto;
+
+    >li {
+        width: 100%;
+        height: fit-content;
+    }
+}
+
+.group-box,
+.group {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 20px;
+
+    >li {
+        min-height: $item-height;
+        height: fit-content;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+.group-box.list {
+    height: fit-content;
+    background-color: azure;
+    overflow-y: auto;
+}
+
+// 带有复选框的模板沙盒
+.tpl-check-box {
+    display: flex;
+    width: 100%;
+    height: $item-height;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+
+    >input {
+        display: block;
+        aspect-ratio: 1 / 1;
+        height: 80%;
+        cursor: pointer;
+    }
+
+    >p {
+        display: block;
+        height: 100%;
+        line-height: $item-height;
+        text-align: left;
+        text-wrap: wrap;
+    }
+}
+
+// 带有输入框的模板
+.tpl-input-box {
+    display: flex;
+    width: 100%;
+    height: $item-height;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+
+    >p {
+        display: block;
+        height: 100%;
+        line-height: $item-height;
+        text-align: left;
+        text-wrap: wrap;
+    }
+
+    >input {
+        height: 80%;
+        width: 100px;
+    }
+}
+
+// 选项条目沙盒
+.tpl-button-box {
+    width: 100%;
+    min-height: $item-height;
+    line-height: $item-height;
+    text-wrap: wrap;
+}
+
+.not-available {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.important-note {
+    color: chocolate;
+    background-color: rgb(0, 0, 0);
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.important-note::before {
+    content: "！！！！ 注意: ";
+}
+
+.important-note::after {
+    content: "！！！！";
+}
+
+.service-view {
+    width: 25%;
+    height: 100vh;
+    padding-left: 20px;
+    margin: 30px auto;
+    overflow-y: auto;
+    border-left: 3px solid black;
+
+    >div {
+        margin-bottom: 30px;
+        border-bottom: 1px solid black;
+    }
+
+    .description,
+    .prompt-list {
+        >.service-title {
+            font-size: 25px;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        >.service-title::before {
+            content: "";
+            width: 15px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+            display: inline-block;
+            background-color: #99ccff;
+        }
+
+        >ul {
+            width: 70%;
+            margin: 0 auto;
+
+            li {
+                min-height: 30px;
+                height: fit-content;
+                line-height: 30px;
+            }
+        }
+    }
+}
+
+.system-prompt {
+    >ul>li>div {
+
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        padding: 10px 0;
+
+        >.title {
+            width: 150px;
+        }
+
+        >.lang-group {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            height: fit-content;
+            width: 100%;
+
+            >li {
+                width: fit-content;
+                min-width: 50px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                padding: 0 10px;
+                font-size: 20px;
+                color: #99ccff;
+                cursor: pointer;
+                background-color: aliceblue;
+            }
+
+            >li.active {
+                background-color: #99ccff;
+                color: #FFF;
+            }
+        }
+    }
+}

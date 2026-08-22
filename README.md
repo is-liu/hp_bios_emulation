@@ -1,37 +1,124 @@
-# hp_bios_emulation
+## HP BIOS 仿真工具
 
-#### 介绍
-HP 设备 BIOS 仿真模拟
+<font color="red"> **!!仅用于交流学习使用，请以实际 BIOS 界面为准!!**</font>
 
-#### 软件架构
-软件架构说明
+文档最新版本: 1.0
 
+工具最新版本: 1.0
 
-#### 安装教程
+### 功能介绍
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 制作 BIOS 界面模拟图
+2. 支持导出 HTML & JSON 格式
 
-#### 使用说明
+### 项目简介
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+##### unit-menu.json
 
-#### 参与贡献
+拼接模板：
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+```json
+[
+    {
+        "label": {
+            "zh": "标签",
+            "en": "label"
+        },
+        "description ": "描述",
+        "id": "组件ID",
+        "type": "list",
+        "value": "",
+        "min": 0,
+        "max": 15,
+        "checked": true,
+        "available": true,
+        "hidden": false,
+        "default": true,
+        "func": ["选项功能"],
+        "children": [
+            {
+                "label": {
+                    "zh": "标签",
+                    "en": "label"
+                },
+                "description ": "描述",
+                "id": "组件ID",
+                "type": "list",
+                "value": "",
+                "min": 0,
+                "max": 15,
+                "checked": true,
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "children": []
+            }
+        ]
+    }
+]
+```
 
+模板注释：
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+```json
+[
+    {
+        "label": {
+            "zh":"标签",
+            "en":"label"
+        },
+        "description ":"描述",
+        // 英文标签名，有空格用-拼接
+        "id": "组件ID",
+        "type":"menu | list | number | checked | group",
+        "props":{},
+        // 是否可用
+        "available": true,
+        // 是否隐藏
+        "hidden": false | true,
+        // 默认显示
+        "default": true,
+        // 用于注释支持功能
+        "func":["选项功能"],
+        // 按此进行先后排序
+        "order": 1,
+        "children": [
+            {
+                "label": {
+                    "zh":"标签",
+                    "en":"label"
+                },
+                "description ":"描述",
+                "id": "组件ID",
+                "type":"list",
+                "props":{"value": "",
+                "min":0,
+                "max":15,
+                "checked":true,}
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "children":[]
+            },
+            {
+                "label": {
+                    "zh":"标签",
+                    "en":"label"
+                },
+                "description ":"描述",
+                "id": "组件ID",
+                "type":"number",
+                "prop":{
+                    "min":0,
+                    "max":15,
+                    "step": 0,
+                },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "children":[]
+            }
+        ]
+    }
+]
+```

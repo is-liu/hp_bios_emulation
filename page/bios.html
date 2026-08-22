@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOS</title>
+    <link rel="stylesheet" href="../css/bios.css">
+    <script src="../js/jquery-3.6.3.min.js"></script>
+
+    <script src="../ds/bios.js" type="module"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="bios-view" id="biosView">
+            <div class="back-box" id="backBox"></div>
+            <div class="header">
+                <ul class="nav" id="nav">
+                </ul>
+                <div class="logo-box"><img src="../media/images/logo.webp" alt="" srcset=""></div>
+            </div>
+            <div class="main" id="main"></div>
+        </div>
+
+        <div class="service-view">
+            <div class="system-prompt">
+                <p class="tittle"></p>
+                <ul>
+                    <li class="important-note">手动录入可能有一定偏差，请以实际BIOS界面为准。</li>
+                    <li>如显示异常将显示器缩放到75%~100%</li>
+                    <li>如有问题请联系</li>
+                    <li>
+                        <div class="lang-box">
+                            <p class="title">选择语言：</p>
+                            <ul class="lang-group" id="languGroup">
+                                <li class="active" data-lang="zh">中文</li>
+                                <li data-lang="en">英文</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product">
+                            <p class="title">产品线</p>
+                            <select name="product" id="product">
+                                <option value="">战66</option>
+                                <option value="">战99</option>
+                                <option value="">战X</option>
+                            </select>
+                            <select name="sku" id="sku">
+                                <option value="">期待</option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="description">
+                <p class="service-title">描述/注意事项</p>
+                <p id="description" class="description"></p>
+            </div>
+            <div class="prompt-list">
+                <p class="service-title">选项功能</p>
+                <ul id="promptList">
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

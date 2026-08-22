@@ -1,0 +1,265 @@
+@charset "UTF-8";
+body,
+div,
+p,
+ul,
+li,
+a,
+img {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+ul {
+  list-style: none;
+}
+
+.ly-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: aliceblue;
+}
+
+.ly-container > .ly-nav {
+  width: 100%;
+  height: 58px;
+  background-color: aqua;
+  border-bottom: 2px solid lightgray;
+}
+
+.ly-container > .ly-main {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
+  overflow: auto;
+}
+
+.ly-container > .ly-main > .ly-content {
+  width: calc(80% - 10px);
+  height: -moz-fit-content;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.ly-container > .ly-main > .ly-content > .drawer-box {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.ly-container > .ly-main > .ly-aside {
+  width: calc(20% - 20px);
+  padding: 0 10px;
+  height: 100%;
+  background-color: azure;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-nav {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-nav > li {
+  width: 100px;
+  height: 36px;
+  text-align: center;
+  line-height: 40px;
+  border-bottom: 4px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-nav > li.tab-active {
+  border-color: #99ccff;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-nav > li:hover {
+  border-color: rgba(153, 204, 255, 0.5019607843);
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-box {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-box > div {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  position: absolute;
+  z-index: -1;
+}
+
+.ly-container > .ly-main > .ly-aside > .tab-box > div.tab-active {
+  z-index: 999;
+}
+
+.view-aspect-ratio_16-9 {
+  aspect-ratio: 16/9;
+}
+
+.view-aspect-ratio_16-10 {
+  aspect-ratio: 16/10;
+}
+
+/* ===== 容器 ===== */
+.record-frame {
+  position: relative;
+  /* 让角标相对此容器定位 */
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #0a0a0a;
+  /* 深色背景，更像屏幕 */
+  border-radius: 4px;
+  margin: 10px auto;
+  /* 容器内部内容居中展示 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Courier New", monospace;
+  font-size: 24px;
+  color: #00ff00;
+  /* ===== 四个角的通用样式 ===== */
+  /* ----- 左上角 ----- */
+  /* ----- 右上角 ----- */
+  /* ----- 左下角 ----- */
+  /* ----- 右下角 ----- */
+}
+
+.record-frame > .drawer-view {
+  width: 95%;
+  aspect-ratio: 16/9;
+  overflow-y: auto;
+}
+
+.record-frame > .drawer-view > .drawer {
+  width: 100%;
+  min-height: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.record-frame .corner {
+  position: absolute;
+  width: 25px;
+  /* L形每条边的长度 */
+  height: 25px;
+  border-color: #ff3333;
+  /* 🔴 录制红（想换绿色改这里） */
+  border-style: solid;
+  border-width: 0;
+  /* 默认全关，子类单独开 */
+}
+
+.record-frame .corner-tl {
+  top: 8px;
+  left: 8px;
+  border-top-width: 4px;
+  border-left-width: 4px;
+}
+
+.record-frame .corner-tr {
+  top: 8px;
+  right: 8px;
+  border-top-width: 4px;
+  border-right-width: 4px;
+}
+
+.record-frame .corner-bl {
+  bottom: 8px;
+  left: 8px;
+  border-bottom-width: 4px;
+  border-left-width: 4px;
+}
+
+.record-frame .corner-br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom-width: 4px;
+  border-right-width: 4px;
+}
+
+.unit-menu {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.unit-menu > li {
+  margin-top: 10px;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-bottom: 1px solid lightblue;
+  padding-bottom: 10px;
+}
+
+.unit-menu > li > .unit-menu-list-title {
+  width: 80%;
+  text-align: left;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.unit-menu > li > .unit-menu-list-title::before {
+  content: "";
+  width: 15px;
+  height: 40px;
+  background-color: red;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.unit-menu-list {
+  width: 90%;
+  margin-left: 10%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 5px;
+}
+
+.unit-menu-list > li {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: 2px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.unit-menu-list > li > p {
+  width: -moz-fit-content;
+  width: fit-content;
+  min-height: 30px;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.unit-menu-list > li:hover {
+  border-color: #99ccff;
+} 
+
+/*# sourceMappingURL=layout.css.map */

@@ -1,0 +1,214 @@
+[
+    {
+        "label": {
+            "zh": "主要",
+            "en": "Main"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Main",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": true,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "clickable": true,
+        "group": -1,
+        "children": [
+            {
+                "label": {
+                    "zh": "系统信息",
+                    "en": "system information"
+                },
+                "group-label": "组标签",
+                "description ": "information描述",
+                "id": "system-information",
+                "type": "list",
+                "props": {
+                    "value": "",
+                    "min": 0,
+                    "max": 15,
+                    "checked": true
+                },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 1,
+                "func":[1,2,3,4,5],
+                "children": [
+                    {
+                        "label": {
+                            "zh": "产品序列号",
+                            "en": "Serial number"
+                        },
+                        "group-label": "",
+                        "description ": "sn描述",
+                        "id": "Serial-Number",
+                        "type": "list",
+                        "props": {
+                            "value": "",
+                            "min": 0,
+                            "max": 15,
+                            "checked": true
+                        },
+                        "available": true,
+                        "hidden": false,
+                        "default": true,
+                        "goback": false,
+                        "func": ["选项功能"],
+                        "order": 1,
+                        "clickable": false,
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "label": {
+                    "zh": "系统",
+                    "en": "system"
+                },
+                "group-label": "组标签",
+                "description ": "system描述",
+                "id": "system",
+                "type": "list",
+                "props": {
+                    "value": "",
+                    "min": 0,
+                    "max": 15,
+                    "checked": true
+                },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 1,
+                "children": []
+            },
+            {
+                "label": {
+                    "zh": "测试1",
+                    "en": "Test1"
+                },
+                "group-label": "组标签",
+                "description ": "描述",
+                "id": "test1",
+                "type": "list",
+                "props": {
+                    "value": "",
+                    "min": 0,
+                    "max": 15,
+                    "checked": true
+                },
+                "available": true,
+                "hidden": false,
+                "default": true,
+                "clickable": true,
+                "group": 11,
+                "children": [
+                    {
+                        "label": {
+                            "zh": "产品序列号",
+                            "en": "Serial number"
+                        },
+                        "group-label": "",
+                        "description ": "描述",
+                        "id": "Serial-Number",
+                        "type": "list",
+                        "props": {
+                            "value": "",
+                            "min": 0,
+                            "max": 15,
+                            "checked": true
+                        },
+                        "available": true,
+                        "hidden": false,
+                        "default": true,
+                        "goback": false,
+                        "func": ["选项功能"],
+                        "order": 1,
+                        "clickable": false,
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "label": {
+            "zh": "安全",
+            "en": "Security"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Security",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    },
+    {
+        "label": {
+            "zh": "先进",
+            "en": "Advanced"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "Advanced",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    },
+    {
+        "label": {
+            "zh": "UEFI",
+            "en": "UEFI"
+        },
+        "group-label": "",
+        "description ": "描述",
+        "id": "UEFI",
+        "type": "page",
+        "props": {
+            "value": "",
+            "min": 0,
+            "max": 15,
+            "checked": true
+        },
+        "available": true,
+        "hidden": false,
+        "default": false,
+        "goback": false,
+        "func": ["选项功能"],
+        "order": 1,
+        "children": []
+    }
+]
