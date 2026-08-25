@@ -43,7 +43,7 @@
                 "default": true,
                 "clickable": true,
                 "group": 1,
-                "func":[1,2,3,4,5],
+                "func":[],
                 "children": [
                     {
                         "label": {
@@ -73,12 +73,12 @@
             },
             {
                 "label": {
-                    "zh": "系统",
-                    "en": "system"
+                    "zh": "系统IDS",
+                    "en": "system IDS"
                 },
                 "group-label": "组标签",
-                "description ": "system描述",
-                "id": "system",
+                "description ": "system ids",
+                "id": "system-ids",
                 "type": "list",
                 "props": {
                     "value": "",
@@ -91,7 +91,32 @@
                 "default": true,
                 "clickable": true,
                 "group": 1,
-                "children": []
+                "children": [
+                    {
+                        "label": {
+                            "zh": "设备标记",
+                            "en": "tag"
+                        },
+                        "group-label": "",
+                        "description ": "sn描述",
+                        "id": "device-tag",
+                        "type": "input-text",
+                        "props": {
+                            "value": "",
+                            "min": 0,
+                            "max": 15,
+                            "checked": true
+                        },
+                        "available": true,
+                        "hidden": false,
+                        "default": true,
+                        "goback": false,
+                        "func": ["选项功能"],
+                        "order": 1,
+                        "clickable": false,
+                        "children": []
+                    }
+                ]
             },
             {
                 "label": {

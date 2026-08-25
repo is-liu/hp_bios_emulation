@@ -22,9 +22,13 @@
             "ul": "<li><ul class='group-box'></ul></li>",
             "li": "<li class='show-descr' data-sn='${btn-id}'><div class='tpl-input-box'><input type='checkbox'><p>${TEXT_INNER}</p></div></li>"
         },
-        "input": {
-            "ul": "<li><ul class='group-box'></ul></li>",
-            "li": "<li class='show-descr' data-sn='${btn-id}'><div  class='tpl-input-box'><p>Test</p><input type='number'></div></li>"
+        "input-text": {
+            "ul": "<li><ul class='group-box' id='${unit-id}'></ul></li>",
+            "li": "<li class='show-descr' data-sn='${btn-id}' id='${unit-id}'><div  class='tpl-input-box'><p>Test</p><input type='text'></div></li>"
+        },
+        "input-number": {
+            "ul": "<li><ul class='group-box' id='${unit-id}'></ul></li>",
+            "li": "<li class='show-descr' data-sn='${btn-id}' id='${unit-id}'><div  class='tpl-input-box'><p>Test</p><input type='number'></div></li>"
         },
         "promptList": "<li>${TEXT-INNER}</li>",
         "backbtn": "<div class='back-btn'>← 返回上级</div>"
