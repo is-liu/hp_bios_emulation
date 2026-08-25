@@ -1,4 +1,4 @@
-import Utils from '../js/utils.js';
+import Utils from './js/utils.js';
 
 const config = {
     unitMenu: null,
@@ -29,8 +29,8 @@ let debouncedShow = null;
 async function initApp() {
     // try {
     const [data1, data2] = await Promise.all([
-        Utils.getConfig("../config/unit-menu.json"),
-        Utils.getConfig("../config/props-mapping.json"),
+        Utils.getConfig("./config/unit-menu.json"),
+        Utils.getConfig("./config/props-mapping.json"),
         $.ready // jQuery 的 ready 方法支持 Promise 风格（或者写 $(document).ready()）
     ]);
 
