@@ -5,25 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BIOS</title>
-    <!-- <link rel="stylesheet" href="../css/bios.css"> -->
-    <link rel="stylesheet" href="https://gitee.com/Liu-Zhu_java/hp_bios_emulation/blob/master/css/bios.css">
+    <link rel="stylesheet" href="../css/bios.css">
+    <!-- <link rel="stylesheet" href="https://gitee.com/Liu-Zhu_java/hp_bios_emulation/blob/master/css/bios.css"> -->
     <script src="../js/jquery-3.6.3.min.js"></script>
 
-    <script src="../ds/bios.js" type="module"></script>
+    <!-- <script src="./js/bios.js" type="module"></script> -->
+    <script src="../js/beta/bios.js" type="module"></script>
 </head>
 
 <body>
     <div class="container">
+        <!-- BIOS页面 -->
         <div class="bios-view" id="biosView">
-            <div class="back-box" id="backBox"></div>
+            <div class="util-box">
+                <div class="back-box" id="backBox"></div>
+                <ul class="uri-box" id="uriList">
+                </ul>
+            </div>
             <div class="header">
                 <ul class="nav" id="nav">
                 </ul>
-                <div class="logo-box"><img src="../media/images/logo.webp" alt="" srcset=""></div>
+                <div class="logo-box"><img src="./media/images/logo.webp" alt="" srcset=""></div>
             </div>
             <div class="main" id="main"></div>
         </div>
-
+        <!-- 右侧提示项 -->
         <div class="service-view">
             <div class="system-prompt">
                 <p class="tittle"></p>
