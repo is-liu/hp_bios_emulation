@@ -75,6 +75,8 @@ async function initApp() {
         // 预设锚点
         await initSkuList(domList.$product, config.sku);
         bindProductChange();
+        bindSkuChange();
+
 
         // 首次渲染
         if (!window.location.hash) {
@@ -367,14 +369,17 @@ function bindProductChange() {
         }
         logger.debug("渲染父级下拉", e.target.value)
         initSkuList(domList.$sku, config.sku[e.target.value].sku)
-        bindSkuChange(e.target.value);
     })
 }
 
-function bindSkuChange(ind) {
-    let i = ind;
+/**
+ * 切换SKU
+ */
+function bindSkuChange() {
     domList.$sku.on('change', (e) => {
-        logger.debug("下标", e.target.value, i)
+        if (e.target.value == -1) {
+            return;
+        }
         reloadApp(e.target.value);
     })
 }
