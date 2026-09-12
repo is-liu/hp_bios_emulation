@@ -33,6 +33,7 @@
         "uri-bar": {
             "li":"<li class='clickable' data-sn='${btn-id}'>${TEXT-INNER}</li>"
         },
+        "sku-list": "<option value='${VALUE}'>${LABEL}</option>",
         "promptList": "<li>${TEXT-INNER}</li>",
         "backbtn": "<div class='back-btn'>←</div>"
     }

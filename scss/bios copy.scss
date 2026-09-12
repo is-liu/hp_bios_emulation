@@ -101,8 +101,23 @@ $item-height: 30px;
 .gt {
     width: 100px;
     height: 100%;
-    background-color: aqua;
 }
+
+.lt {
+    
+    > .back-btn {
+        width: 40px;
+        height: 30px;
+        border-bottom: 1px solid lightblue;
+        cursor: pointer;
+        color: #0066cc;
+        margin: 10px 0;
+        line-height: 50px;
+        font-size: 50px;
+        font-weight:900;
+    }
+ }
+
 
 .content {
     width: calc(100% - 300px);
@@ -135,7 +150,8 @@ $item-height: 30px;
     overflow-y: auto;
 }
 
-// 带有复选框的模板沙盒
+ /* ========== 组盒子 ========== */
+ .group-box,
 .tpl-check-box {
     display: flex;
     width: 100%;
@@ -191,6 +207,9 @@ $item-height: 30px;
     text-wrap: wrap;
 }
 
+ /* ========== 工具类,js调用 ========== */
+
+
 .not-available {
     cursor: not-allowed;
     opacity: 0.5;
@@ -219,6 +238,9 @@ $item-height: 30px;
 .important-note::after {
     content: "！！！！";
 }
+
+ /* ========== 右侧边栏 ========== */
+
 
 .service-view {
     width: 25%;

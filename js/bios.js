@@ -1,4 +1,4 @@
-import Utils from './utils.js';
+import Utils from '../utils.js';
 
 const config = {
     unitMenu: null,
@@ -10,8 +10,12 @@ const domList = {
     $nav: null,
     $main: null,
     $backBox: null,
-    $content: null
+    $content: null,
+    $uriList: null,
+    $ltBox: null
 }
+
+const uriList = []
 
 const cssSelecter = {
     hidden: 'hidden',
@@ -29,9 +33,9 @@ let debouncedShow = null;
 async function initApp() {
     // try {
     const [data1, data2] = await Promise.all([
-        Utils.getConfig("./config/unit-menu.json"),
-        Utils.getConfig("./config/props-mapping.json"),
-        $.ready // jQuery 的 ready 方法支持 Promise 风格（或者写 $(document).ready()）
+        Utils.getConfig("../config/unit-menu.json"),
+        Utils.getConfig("../config/props-mapping.json"),
+        $.ready 
     ]);
 
     config.unitMenu = data1;
@@ -40,6 +44,7 @@ async function initApp() {
     domList.$main = $("#main");
     domList.$nav = $("#nav");
     domList.$backBox = $("#backBox");
+    domList.$uriList = $("#uriList");
 
     console.log("配置加载成功。", config);
 
@@ -114,6 +119,7 @@ function renderNav() {
     for (let c of config.unitMenu) {
         if (c.type === 'page') {
             domList.$nav.append(template.replace('${btn-id}', c.id).replace('${TEXT-INNER}', c.label[config.language]))
+            // renderUri(c, false)
         }
     }
 }
@@ -147,12 +153,16 @@ function renderPage(pathArr) {
     // 提示文字事件
     bindSideTips();
 
-    // 4. 返回按钮
+    // 4. 导航条
     const parentPath = getParentPath(path);
-    domList.$backBox.empty();
+
+    renderUri(node, 1)
+    
+    domList.$ltBox = $("#ltBox");
+    domList.$ltBox.empty();
     if (parentPath) {
-        domList.$backBox.prepend(config.template.template.backbtn);
-        domList.$backBox.find('.back-btn').on('click', function () {
+        domList.$ltBox.append(config.template.template.backbtn);
+        domList.$ltBox.find('.back-btn').on('click', function () {
             window.location.hash = '#/' + parentPath.join('/');
         });
     }
@@ -194,12 +204,40 @@ function buildContentHtml(parentDom, children, currentPath) {
 }
 
 /**
+ * 渲染导航条
+ * @param {JSON} conf
+ * @param {-1|0|1} flag 
+ */
+function renderUri(conf, flag) {
+    if (flag == -1) {
+        uriList.pop()
+        domList.$uriList.children().pop();
+        // append(domList.$uriList, config.template.template.uriList, conf);
+    } else if (flag == 1) {
+        uriList.push(conf.id);
+        appendDom(domList.$uriList, config.template.template.uriList, conf)
+
+    }
+    //     uriList.push("uri-" + conf.id)
+    //     appendDom(domList.$uriList, config.template.template.uriList, conf)
+    // }
+}
+
+function initUri(conf) {
+    appendDom(domList.$uriList, config.template.template.uriList, conf)
+}
+
+/**
  * 创建节点
  * @param {Document} dom 
  * @param {String} template 
  * @param {config.unitMenu} conf 
  */
 function appendDom(dom, template, conf) {
+    if (!template) {
+        console.warn('template is undefined or empty');
+        return null;
+    }
     template = template.replace(/\$\{btn-id\}/g, conf.id)
         .replace(/\$\{TEXT-INNER\}/g, conf.label[config.language] || '')
         .replace(/\$\{TEXT_INNER\}/g, conf.label[config.language] || '')

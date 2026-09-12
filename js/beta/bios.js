@@ -1,9 +1,13 @@
 import Utils from '../utils.js';
+import logger from '../logger.js';
 
 const config = {
     unitMenu: null,
     template: null,
-    language: 'zh'
+    sku: null,
+    language: 'zh',
+    defaultURI: '/config/unit-menu.json',
+    uri: null
 };
 
 const domList = {
@@ -12,7 +16,8 @@ const domList = {
     $backBox: null,
     $content: null,
     $uriList: null,
-    $ltBox: null
+    $ltBox: null,
+    $sku: null
 }
 
 const uriList = []
@@ -25,46 +30,82 @@ const cssSelecter = {
 }
 
 let debouncedShow = null;
+let changek = 0;
+let isFirstInit = true;
 
+async function loadConfig() {
+    config.uri = config.uri || config.defaultURI
+    logger.info("当前加载配置文件：", config.uri)
+    const [data1, data2, data3] = await Promise.all([
+        // Utils.getConfig("../config/unit-menu.json"),
+        Utils.getConfig(config.uri),
+        Utils.getConfig("../config/props-mapping.json"),
+        Utils.getConfig("/config/sku.json"),
+        $.ready
+    ]);
+
+    config.unitMenu = data1;
+    config.template = data2;
+    config.sku = data3;
+
+    logger.info("配置加载成功。", config);
+}
 
 /**
  * 初始化
  */
 async function initApp() {
     // try {
-    const [data1, data2] = await Promise.all([
-        Utils.getConfig("../config/unit-menu.json"),
-        Utils.getConfig("../config/props-mapping.json"),
-        $.ready 
-    ]);
-
-    config.unitMenu = data1;
-    config.template = data2;
+    await loadConfig();
 
     domList.$main = $("#main");
     domList.$nav = $("#nav");
     domList.$backBox = $("#backBox");
     domList.$uriList = $("#uriList");
+    domList.$sku = $("#sku");
+    domList.$product = $("#product")
 
-    console.log("配置加载成功。", config);
+    // 首次事件绑定
+    if (isFirstInit) {
+        bindLanguageSwitch();
+        bindNavClick();
+        window.addEventListener('hashchange', onHashChange);
+        debouncedShow = debounce(updateSidePanel, 300);
 
-    bindLanguageSwitch();
-    bindNavClick();
-    window.addEventListener('hashchange', onHashChange);
-    debouncedShow = debounce(updateSidePanel, 300);
+        // 预设锚点
+        await initSkuList(domList.$product, config.sku);
+        bindProductChange();
 
-    renderNav();
+        // 首次渲染
+        if (!window.location.hash) {
+            window.location.hash = '#/' + getDefaultPath();
+        } else {
+            onHashChange();
+        }
 
-    // 首次渲染
-    if (!window.location.hash) {
-        window.location.hash = '#/' + getDefaultPath();
+        isFirstInit = false;
     } else {
-        onHashChange();
+        window.location.hash = '#/' + getDefaultPath();
     }
 
+    renderNav();
+}
+
+/**
+ * 导入配置文件重新渲染
+ * @param {string} uri 配置文件路径
+ */
+function reloadApp(uri) {
+
+    if (Utils.isNull(uri)) {
+        uri = config.defaultURI;
+    }
+    config.uri = uri;
+    initApp()
 }
 
 initApp();
+
 
 // ---------------------- 路由工具 ----------------------
 
@@ -110,6 +151,28 @@ function getDefaultPath() {
 
 // ---------------------- 渲染核心（严格使用模板） ----------------------
 
+// function renderSkuSelect(dom, items) {
+
+// }
+
+
+/**
+ * 初始化sku列表
+ */
+function initSkuList(dom, items) {
+    logger.debug("渲染select", items)
+    let tpl = config.template.template['sku-list'];
+    dom.empty();
+    let i = 0;
+    dom.append(`<option readonly value="-1">---未选择---</option>`)
+    for (let s of items) {
+        logger.debug(s)
+        let t = tpl.replace("${VALUE}", typeof s.sku == 'string' ? s.sku : i++)
+            .replace("${LABEL}", s.label)
+        dom.append(t)
+    }
+}
+
 /**
  * 渲染导航
  */
@@ -129,7 +192,7 @@ function renderNav() {
  * 渲染指定路径的页面
  */
 function renderPage(pathArr) {
-    console.log("渲染页面", pathArr)
+    logger.info("渲染页面", pathArr)
     const path = pathArr || getCurrentPath();
     const node = findNodeByPath(path);
     if (!node) {
@@ -140,11 +203,11 @@ function renderPage(pathArr) {
     domList.$main.empty();
 
     const pageTemplate = config.template.template.page.li;
-    console.log("导入page模板", pageTemplate)
+    logger.info("导入page模板", pageTemplate)
     domList.$main.append(pageTemplate.replace(/\$\{unit-id\}/g, 'content'));
     domList.$content = $("#content")
 
-    console.log("渲染子节点", node.children)
+    logger.info("渲染子节点", node.children)
     buildContentHtml(domList.$content, node.children || [], path);
 
     //子级点击事件（委托给 .clickable）
@@ -157,7 +220,7 @@ function renderPage(pathArr) {
     const parentPath = getParentPath(path);
 
     renderUri(node, 1)
-    
+
     domList.$ltBox = $("#ltBox");
     domList.$ltBox.empty();
     if (parentPath) {
@@ -169,6 +232,7 @@ function renderPage(pathArr) {
 
     // 5. 更新右侧面板
     updateSidePanel(node);
+    logger.info("渲染完成");
 }
 
 /**
@@ -223,9 +287,6 @@ function renderUri(conf, flag) {
     // }
 }
 
-function initUri(conf) {
-    appendDom(domList.$uriList, config.template.template.uriList, conf)
-}
 
 /**
  * 创建节点
@@ -235,7 +296,7 @@ function initUri(conf) {
  */
 function appendDom(dom, template, conf) {
     if (!template) {
-        console.warn('template is undefined or empty');
+        // console.warn('template is undefined or empty');
         return null;
     }
     template = template.replace(/\$\{btn-id\}/g, conf.id)
@@ -296,6 +357,29 @@ function updateSidePanel() {
 // ---------------------- 事件绑定 ----------------------
 
 /**
+ * 切换机型
+ */
+function bindProductChange() {
+    domList.$product.on('change', (e) => {
+        if (e.target.value == -1) {
+            domList.$sku.empty();
+            return;
+        }
+        logger.debug("渲染父级下拉", e.target.value)
+        initSkuList(domList.$sku, config.sku[e.target.value].sku)
+        bindSkuChange(e.target.value);
+    })
+}
+
+function bindSkuChange(ind) {
+    let i = ind;
+    domList.$sku.on('change', (e) => {
+        logger.debug("下标", e.target.value, i)
+        reloadApp(e.target.value);
+    })
+}
+
+/**
  * 导航点击
  */
 function bindNavClick() {
@@ -321,8 +405,6 @@ function bindClick(path) {
     });
 }
 
-
-
 /**
  * 提示描述
  */
@@ -337,7 +419,6 @@ function bindSideTips() {
         });
 }
 
-
 /**
  * 切换语言
  */
@@ -351,6 +432,9 @@ function bindLanguageSwitch() {
     });
 }
 
+/**
+ * 路由切换
+ */
 function onHashChange() {
     renderPage(getCurrentPath());
 }

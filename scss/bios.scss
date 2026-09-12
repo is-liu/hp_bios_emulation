@@ -1,135 +1,111 @@
- /* ========== 全局重置 ========== */
- body,
- div,
- ul,
- li,
- img,
- p,
- input {
-     margin: 0;
-     padding: 0;
- }
+body,
+div,
+ul,
+li,
+img,
+p,
+input {
+    margin: 0;
+    padding: 0;
+}
 
- body {
-     overflow: hidden;
-     width: 100vw;
-     height: 100vh;
-     font-size: 20px;
-     color: rgb(11, 11, 11);
- }
+body {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    font-size: 20px;
+    color: rgb(11, 11, 11);
+}
 
- ul {
-     list-style: none;
- }
+ul {
+    list-style: none;
+}
 
- /* ========== 容器 ========== */
- .container {
-     width: 100%;
-     height: 100vh;
-     display: flex;
-     justify-content: space-around;
-     gap: 1%;
- }
+$header-height: 60px;
+$item-height: 30px;
 
- /* ========== BIOS 主视图 ========== */
- .bios-view {
-     width: 70%;
-     max-width: 1000px;
-     min-width: 800px;
-     height: 100%;
-     overflow: hidden;
-     margin: 30px auto;
- }
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    gap: 1%;
+}
 
- .bios-view>.util-box {
-     width: 100%;
-     height: 50px;
-     display: flex;
-     justify-content: start;
-     align-items: center;
-     border-bottom: 1px solid #0066cc;
+.bios-view {
+    width: 70%;
+    max-width: 1000px;
+    min-width: 800px;
+    height: 100%;
+    overflow: hidden;
+    margin: 30px auto;
 
-     > .uri-box {
-        width: fit-content;
-        height: 100%;
-        line-height: 50px;
-        font-size: 25px;
+    .back-box {
+        width: 100%;
+        height: 29px;
+        border-bottom: 1px solid lightblue;
+        cursor: pointer;
+        color: #0066cc;
+        margin: 10px 0;
+    }
+
+    >.header {
+        width: 100%;
+        height: $header-height;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: start;
-        gap:10px;
-        li {
+        justify-content: center;
+        align-items: center;
+        gap: 100px;
+        border-bottom: 2px solid lightgray;
+
+        >.nav {
+            display: flex;
             width: fit-content;
             height: 100%;
-            line-height: 50px;
-            // padding: 0 10px;
-            color: #66aadd;
-            cursor: pointer;
+            gap: 10px;
+            justify-content: space-around;
 
-            &:not(:last-child)::after {
-                content: "/";
+            >li {
+                width: 200px;
+                height: 100%;
+                line-height: $header-height;
+                // color: aquamarine;
+                font-size: 40px;
+                text-align: center;
+                font-weight: 500;
+                cursor: pointer;
             }
         }
-     }
- }
 
- .bios-view>.header {
-     width: 100%;
-     height: 60px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     gap: 100px;
-     border-bottom: 2px solid lightgray;
- }
+        >.logo-box {
+            width: auto;
+            height: 100%;
 
- .bios-view>.header>.nav {
-     display: flex;
-     width: fit-content;
-     height: 100%;
-     gap: 10px;
-     justify-content: space-around;
- }
+            >img {
+                width: auto;
+                height: 100%;
+            }
+        }
+    }
 
- .bios-view>.header>.nav>li {
-     width: 200px;
-     height: 100%;
-     line-height: 60px;
-     font-size: 40px;
-     text-align: center;
-     font-weight: 500;
-     cursor: pointer;
- }
+    >.main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        gap: 50px;
+    }
+}
 
- .bios-view>.header>.logo-box {
-     width: auto;
-     height: 100%;
- }
+.lt,
+.gt {
+    width: 100px;
+    height: 100%;
+}
 
- .bios-view>.header>.logo-box>img {
-     width: auto;
-     height: 100%;
- }
+.lt {
 
- .bios-view>.main {
-     width: 100%;
-     height: 100%;
-     display: flex;
-     justify-content: space-around;
-     gap: 0px;
- }
-
- /* ========== 左右占位 ========== */
- .lt,
- .gt {
-     width: 100px;
-     height: 100%;
-    //  background-color: aqua;
- }
-
- .lt {
-    
-    > .back-btn {
+    >.back-btn {
         width: 40px;
         height: 30px;
         border-bottom: 1px solid lightblue;
@@ -138,337 +114,227 @@
         margin: 10px 0;
         line-height: 50px;
         font-size: 50px;
-        font-weight:900;
+        font-weight: 900;
     }
- }
+}
 
- /* ========== 内容区 ========== */
- .content {
-     width: calc(100% - 250px);
-     height: 100%;
-     overflow: auto;
- }
 
- .content>li {
-     width: 100%;
-     height: fit-content;
- }
+.content {
+    width: calc(100% - 200px);
+    height: 100%;
+    overflow: auto;
 
- /* ========== 组盒子 ========== */
- .group-box,
- .group {
-     width: 100%;
-     height: fit-content;
-     margin-bottom: 20px;
- }
+    >li {
+        width: 100%;
+        height: fit-content;
+    }
+}
 
- .group-box>li,
- .group>li {
-     min-height: 30px;
-     height: fit-content;
-     width: 100%;
-     margin: 10px 0;
- }
+.group-box,
+.group {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 20px;
 
- .group-box.list {
-     height: fit-content;
-     background-color: azure;
-     overflow-y: auto;
- }
+    >li {
+        min-height: $item-height;
+        height: fit-content;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
 
- /* ========== 模板组件 ========== */
- .tpl-check-box {
-     display: flex;
-     width: 100%;
-     height: 30px;
-     justify-content: start;
-     align-items: center;
-     gap: 10px;
- }
+.group-box.list {
+    height: fit-content;
+    background-color: azure;
+    overflow-y: auto;
+}
 
- .tpl-check-box>input {
-     display: block;
-     aspect-ratio: 1/1;
-     height: 80%;
-     cursor: pointer;
- }
+/* ========== 组盒子 ========== */
+.tpl-check-box {
+    display: flex;
+    width: 100%;
+    height: $item-height;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
 
- .tpl-check-box>p {
-     display: block;
-     height: 100%;
-     line-height: 30px;
-     text-align: left;
-     text-wrap: wrap;
- }
+    >input {
+        display: block;
+        aspect-ratio: 1 / 1;
+        height: 80%;
+        cursor: pointer;
+    }
 
- .tpl-input-box {
-     display: flex;
-     width: 100%;
-     height: 30px;
-     justify-content: start;
-     align-items: center;
-     gap: 10px;
- }
+    >p {
+        display: block;
+        height: 100%;
+        line-height: $item-height;
+        text-align: left;
+        text-wrap: wrap;
+    }
+}
 
- .tpl-input-box>p {
-     display: block;
-     height: 100%;
-     line-height: 30px;
-     text-align: left;
-     text-wrap: wrap;
- }
+// 带有输入框的模板
+.tpl-input-box {
+    display: flex;
+    width: 100%;
+    height: $item-height;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
 
- .tpl-input-box>input {
-     height: 80%;
-     width: 100px;
- }
+    >p {
+        display: block;
+        height: 100%;
+        line-height: $item-height;
+        text-align: left;
+        text-wrap: wrap;
+    }
 
- .tpl-button-box {
-     width: 100%;
-     min-height: 30px;
-     line-height: 30px;
-     text-wrap: wrap;
- }
+    >input {
+        height: 80%;
+        width: 100px;
+    }
+}
 
- /* ========== 工具类 ========== */
- .not-available {
-     cursor: not-allowed;
-     opacity: 0.5;
- }
+// 选项条目沙盒
+.tpl-button-box {
+    width: 100%;
+    min-height: $item-height;
+    line-height: $item-height;
+    text-wrap: wrap;
+}
 
- .clickable {
-     cursor: pointer;
- }
+/* ========== 工具类,js调用 ========== */
 
- .hidden {
-     display: none;
- }
 
- /* ========== service-view 基础样式（无装饰，纯色） ========== */
- .service-view {
-     width: 25%;
-     height: 100vh;
-     padding-left: 20px;
-     margin: 30px auto;
-     overflow-y: auto;
-     border-left: 3px solid black;
-     background-color: #f9f9f9;
-     /* 浅灰纯色背景 */
- }
+.not-available {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
 
- .service-view>div {
-     margin-bottom: 30px;
-     border-bottom: 1px solid #ccc;
-     padding-bottom: 20px;
- }
+.clickable {
+    cursor: pointer;
+}
 
- .service-view>div:last-child {
-     border-bottom: none;
-     margin-bottom: 0;
- }
+.hidden {
+    display: none;
+}
 
- /* 标题样式 */
- .service-view .description>.service-title,
- .service-view .prompt-list>.service-title,
- .system-prompt>.tittle {
-     font-size: 25px;
-     height: 40px;
-     line-height: 40px;
-     display: flex;
-     align-items: center;
-     font-weight: 600;
-     color: #222;
- }
 
- /* 标题左侧装饰条（保留原风格） */
- .service-view .description>.service-title::before,
- .service-view .prompt-list>.service-title::before {
-     content: "";
-     width: 15px;
-     height: 40px;
-     margin-right: 10px;
-     display: inline-block;
-     background-color: #99ccff;
- }
+.important-note {
+    color: rgb(0, 0, 0);
+    background-color: rgb(241, 120, 49);
+    font-weight: 600;
+    font-size: 30px;
+}
 
- .system-prompt>.tittle::before {
-     content: "";
-     width: 15px;
-     height: 40px;
-     margin-right: 10px;
-     display: inline-block;
-     background-color: #99ccff;
- }
+// .important-note::before {
+//     content: "！！！！ 注意: ";
+// }
 
- /* 列表项通用 */
- .service-view .description>ul,
- .service-view .prompt-list>ul {
-     width: 70%;
-     margin: 0 auto;
- }
+// .important-note::after {
+//     content: "！！！！";
+// }
 
- .service-view .description>ul li,
- .service-view .prompt-list>ul li {
-     min-height: 30px;
-     height: fit-content;
-     line-height: 30px;
- }
+/* ========== 右侧边栏 ========== */
 
- /* system-prompt 内列表 */
- .system-prompt>ul>li {
-     min-height: 30px;
-     line-height: 1.6;
-     padding: 4px 0;
-     color: #111;
-     font-size: 18px;
- }
+.service-view {
+    width: 25%;
+    height: 100vh;
+    padding-left: 20px;
+    margin: 30px auto;
+    overflow-y: auto;
+    border-left: 3px solid black;
 
- .system-prompt>ul>li>div {
-     display: flex;
-     width: 100%;
-     height: fit-content;
-     padding: 10px 0;
-     align-items: center;
-     flex-wrap: wrap;
-     gap: 10px;
- }
+    >div {
+        margin-bottom: 30px;
+        border-bottom: 1px solid black;
+    }
 
- .system-prompt>ul>li>div>.title {
-     width: 150px;
-     font-weight: 600;
- }
+    .description,
+    .prompt-list {
+        >.service-title {
+            font-size: 25px;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            align-items: center;
+        }
 
- /* 语言选择按钮（纯色，无渐变） */
- .lang-group {
-     display: flex;
-     justify-content: flex-start;
-     gap: 10px;
-     height: fit-content;
-     width: 100%;
-     flex-wrap: wrap;
- }
+        >.service-title::before {
+            content: "";
+            width: 15px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+            display: inline-block;
+            background-color: #99ccff;
+        }
 
- .lang-group>li {
-     width: fit-content;
-     min-width: 50px;
-     height: 40px;
-     line-height: 40px;
-     text-align: center;
-     padding: 0 10px;
-     font-size: 20px;
-     color: #0066cc;
-     cursor: pointer;
-     background-color: #e0e0e0;
-     border: 1px solid #aaa;
- }
+        >ul {
+            width: 70%;
+            margin: 0 auto;
 
- .lang-group>li.active {
-     background-color: #99ccff;
-     color: #fff;
-     border-color: #66aadd;
- }
+            li {
+                min-height: 30px;
+                height: fit-content;
+                line-height: 30px;
+            }
+        }
+    }
+}
 
- /* ---------- 警告提示（纯色突出） ---------- */
- .important-note {
-     background-color: #d9534f !important;
-     /* 醒目红色 */
-     color: #ffffff !important;
-     font-weight: 700 !important;
-     font-size: 22px !important;
-     padding: 12px 18px !important;
-     border-radius: 4px !important;
-     border-left: 6px solid #a94442 !important;
-     margin: 10px 0 !important;
- }
+.system-prompt {
+    >ul>li {
+        width: 100%;
+        height: fit-content;
+        padding: 10px 0;
+        display: flex;
+        justify-content: flex-start;
 
- /* 清除原有伪元素内容（若有） */
- .important-note::before,
- .important-note::after {
-     content: none !important;
- }
+        >.title {
+            width: 100px;
+        }
 
- /* description 内容样式 */
- #description.description {
-     font-size: 18px;
-     line-height: 1.6;
-     color: #222;
-     padding: 8px 0;
-     border-left: 3px solid #99ccff;
-     padding-left: 15px;
-     margin: 5px 0;
- }
+        >.lang-group {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            height: fit-content;
 
- /* prompt-list 选项列表（无阴影动画） */
- .prompt-list>ul {
-     width: 100%;
-     margin: 0;
-     padding-left: 10px;
- }
+            >li {
+                width: fit-content;
+                min-width: 50px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                padding: 0 10px;
+                font-size: 20px;
+                color: #519eec;
+                cursor: pointer;
+                background-color: aliceblue;
+            }
 
- .prompt-list>ul>li {
-     min-height: 30px;
-     line-height: 1.6;
-     padding: 6px 0 6px 16px;
-     border-bottom: 1px solid #eee;
-     color: #111;
-     font-size: 17px;
-     position: relative;
- }
+            >li.active {
+                background-color: #519eec;
+                color: aliceblue;
+            }
+        }
 
- .prompt-list>ul>li::before {
-     content: "▸";
-     position: absolute;
-     left: 0;
-     top: 6px;
-     color: #666;
- }
 
- .prompt-list>ul>li:last-child {
-     border-bottom: none;
- }
+        >.sku-group {
+            gap: 10px;
+            display: flex;
+            justify-content: left;
+            justify-items: left;
 
- /* 响应式（保留基本适配） */
- @media (max-width: 1200px) {
-     .service-view {
-         width: 30%;
-         padding-left: 15px;
-     }
- }
-
- @media (max-width: 992px) {
-     .service-view {
-         width: 35%;
-         padding-left: 12px;
-     }
-
-     .service-view .description>.service-title,
-     .service-view .prompt-list>.service-title,
-     .system-prompt>.tittle {
-         font-size: 22px;
-         height: 36px;
-         line-height: 36px;
-     }
-
-     .lang-group>li {
-         font-size: 17px;
-         height: 34px;
-         line-height: 34px;
-     }
- }
-
- @media (max-width: 768px) {
-     .service-view {
-         width: 100%;
-         height: auto;
-         max-height: 50vh;
-         border-left: none;
-         border-top: 3px solid black;
-         margin: 10px auto;
-         padding: 15px 18px;
-     }
-
-     .service-view>div {
-         margin-bottom: 20px;
-         padding-bottom: 16px;
-     }
- }
+            select {
+                display: block;
+                width: 140px;
+                height: 30px;
+            }
+        }
+    }
+}
