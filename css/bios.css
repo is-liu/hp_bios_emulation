@@ -1,6 +1,12 @@
 @charset "UTF-8";
 /* ========== 全局重置 ========== */
-body, div, ul, li, img, p, input {
+body,
+div,
+ul,
+li,
+img,
+p,
+input {
   margin: 0;
   padding: 0;
 }
@@ -36,13 +42,38 @@ ul {
   margin: 30px auto;
 }
 
-.bios-view .back-box {
+.bios-view > .util-box {
   width: 100%;
-  height: 29px;
-  border-bottom: 1px solid lightblue;
+  height: 50px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border-bottom: 1px solid #0066cc;
+}
+
+.bios-view > .util-box > .uri-box {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100%;
+  line-height: 50px;
+  font-size: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 10px;
+}
+
+.bios-view > .util-box > .uri-box li {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100%;
+  line-height: 50px;
+  color: #66aadd;
   cursor: pointer;
-  color: #0066cc;
-  margin: 10px 0;
+}
+
+.bios-view > .util-box > .uri-box li:not(:last-child)::after {
+  content: "/";
 }
 
 .bios-view > .header {
@@ -57,6 +88,7 @@ ul {
 
 .bios-view > .header > .nav {
   display: flex;
+  width: -moz-fit-content;
   width: fit-content;
   height: 100%;
   gap: 10px;
@@ -88,43 +120,61 @@ ul {
   height: 100%;
   display: flex;
   justify-content: space-around;
-  gap: 50px;
+  gap: 0px;
 }
 
 /* ========== 左右占位 ========== */
-.lt, .gt {
+.lt,
+.gt {
   width: 100px;
   height: 100%;
-  background-color: aqua;
+}
+
+.lt > .back-btn {
+  width: 40px;
+  height: 30px;
+  border-bottom: 1px solid lightblue;
+  cursor: pointer;
+  color: #0066cc;
+  margin: 10px 0;
+  line-height: 50px;
+  font-size: 50px;
+  font-weight: 900;
 }
 
 /* ========== 内容区 ========== */
 .content {
-  width: calc(100% - 300px);
+  width: calc(100% - 250px);
   height: 100%;
   overflow: auto;
 }
 
 .content > li {
   width: 100%;
+  height: -moz-fit-content;
   height: fit-content;
 }
 
 /* ========== 组盒子 ========== */
-.group-box, .group {
+.group-box,
+.group {
   width: 100%;
+  height: -moz-fit-content;
   height: fit-content;
   margin-bottom: 20px;
 }
 
-.group-box > li, .group > li {
+.group-box > li,
+.group > li {
   min-height: 30px;
+  height: -moz-fit-content;
   height: fit-content;
   width: 100%;
   margin: 10px 0;
 }
 
 .group-box.list {
+  height: -moz-fit-content;
   height: fit-content;
   background-color: azure;
   overflow-y: auto;
@@ -206,7 +256,8 @@ ul {
   margin: 30px auto;
   overflow-y: auto;
   border-left: 3px solid black;
-  background-color: #f9f9f9; /* 浅灰纯色背景 */
+  background-color: #f9f9f9;
+  /* 浅灰纯色背景 */
 }
 
 .service-view > div {
@@ -263,6 +314,7 @@ ul {
 .service-view .description > ul li,
 .service-view .prompt-list > ul li {
   min-height: 30px;
+  height: -moz-fit-content;
   height: fit-content;
   line-height: 30px;
 }
@@ -279,6 +331,7 @@ ul {
 .system-prompt > ul > li > div {
   display: flex;
   width: 100%;
+  height: -moz-fit-content;
   height: fit-content;
   padding: 10px 0;
   align-items: center;
@@ -296,12 +349,14 @@ ul {
   display: flex;
   justify-content: flex-start;
   gap: 10px;
+  height: -moz-fit-content;
   height: fit-content;
   width: 100%;
   flex-wrap: wrap;
 }
 
 .lang-group > li {
+  width: -moz-fit-content;
   width: fit-content;
   min-width: 50px;
   height: 40px;
@@ -323,7 +378,8 @@ ul {
 
 /* ---------- 警告提示（纯色突出） ---------- */
 .important-note {
-  background-color: #d9534f !important; /* 醒目红色 */
+  background-color: #d9534f !important;
+  /* 醒目红色 */
   color: #ffffff !important;
   font-weight: 700 !important;
   font-size: 22px !important;
@@ -418,6 +474,6 @@ ul {
     margin-bottom: 20px;
     padding-bottom: 16px;
   }
-}
+} 
 
 /*# sourceMappingURL=bios.css.map */

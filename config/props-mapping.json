@@ -8,7 +8,7 @@
             "li":"<li class='clickable show-descr' data-sn='${btn-id}'>${TEXT-INNER}</li>"
         },
         "page": {
-            "li": "<div class='lt'></div><div class='content' id='${unit-id}'><ul class='group-box'></ul></div>"
+            "li": "<div class='lt' id='ltBox'></div><div class='content' id='${unit-id}'><ul class='group-box'></ul></div>"
         },
         "group": {
             "ul": "<li><ul class='group-box group' id='${unit-id}'></ul></li>",
@@ -30,7 +30,10 @@
             "ul": "<li><ul class='group-box' id='${unit-id}'></ul></li>",
             "li": "<li class='show-descr' data-sn='${btn-id}' id='${unit-id}'><div  class='tpl-input-box'><p>Test</p><input type='number'></div></li>"
         },
+        "uri-bar": {
+            "li":"<li class='clickable' data-sn='${btn-id}'>${TEXT-INNER}</li>"
+        },
         "promptList": "<li>${TEXT-INNER}</li>",
-        "backbtn": "<div class='back-btn'>← 返回上级</div>"
+        "backbtn": "<div class='back-btn'>←</div>"
     }
 }

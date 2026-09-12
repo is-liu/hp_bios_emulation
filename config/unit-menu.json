@@ -17,7 +17,6 @@
         "available": true,
         "hidden": false,
         "default": true,
-        "goback": false,
         "func": ["选项功能"],
         "order": 1,
         "clickable": true,
@@ -110,7 +109,6 @@
                         "available": true,
                         "hidden": false,
                         "default": true,
-                        "goback": false,
                         "func": ["选项功能"],
                         "order": 1,
                         "clickable": false,
@@ -157,7 +155,6 @@
                         "available": true,
                         "hidden": false,
                         "default": true,
-                        "goback": false,
                         "func": ["选项功能"],
                         "order": 1,
                         "clickable": false,
@@ -185,7 +182,6 @@
         "available": true,
         "hidden": false,
         "default": false,
-        "goback": false,
         "func": ["选项功能"],
         "order": 1,
         "children": []
@@ -208,7 +204,6 @@
         "available": true,
         "hidden": false,
         "default": false,
-        "goback": false,
         "func": ["选项功能"],
         "order": 1,
         "children": []
@@ -231,7 +226,6 @@
         "available": true,
         "hidden": false,
         "default": false,
-        "goback": false,
         "func": ["选项功能"],
         "order": 1,
         "children": []

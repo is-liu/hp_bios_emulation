@@ -1,10 +1,12 @@
 ## HP BIOS 仿真工具
 
-<font color="red"> **!!仅用于交流学习使用，请以实际 BIOS 界面为准!!**</font>
+`<font color="red">` **!!仅用于交流学习使用，请以实际 BIOS 界面为准!!**`</font>`
 
 文档最新版本: 0.1
 
 工具最新版本: 0.1
+
+[https://is-liu.github.io/hp_bios_emulation/](https://is-liu.github.io/hp_bios_emulation/)
 
 ### 功能介绍
 
@@ -38,7 +40,6 @@
         "available": true,
         "hidden": false,
         "default": true,
-        "goback": false,
         "func": ["选项功能"],
         "order": 1,
         "clickable": true,
